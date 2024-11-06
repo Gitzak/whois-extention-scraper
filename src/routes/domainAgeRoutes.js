@@ -1,10 +1,9 @@
 import express from "express";
-import verifySharedSecret from "../middleware/verifySharedSecret.js";
 import getDomainAge from "../controllers/domainAgeController.js";
 
 const router = express.Router();
 
-router.get("/api/domain-age/:domain", verifySharedSecret, async (req, res) => {
+router.get("/domain-age/:domain", async (req, res) => {
   try {
     const result = await getDomainAge(req, res);
     res.json(result);
