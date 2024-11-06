@@ -6,24 +6,24 @@ import routes from "./src/routes/index.js";
 
 const app = express();
 
-const allowedOrigins = [EXTENSION_ORIGIN];
+// const allowedOrigins = [EXTENSION_ORIGIN];
 
-// CORS options with dynamic origin validation
-const corsOptions = {
-    origin: (origin, callback) => {
-        // Check if the origin is in the allowedOrigins list
-        if (allowedOrigins.includes(origin) || !origin) {
-            // Allow the request if the origin is allowed or it's a request without origin (e.g., from same-origin)
-            callback(null, true);
-        } else {
-            // Reject the request if the origin is not allowed
-            callback(new Error("Origin is not allowed by CORS"));
-        }
-    },
-};
+// // CORS options with dynamic origin validation
+// const corsOptions = {
+//     origin: (origin, callback) => {
+//         // Check if the origin is in the allowedOrigins list
+//         if (allowedOrigins.includes(origin) || !origin) {
+//             // Allow the request if the origin is allowed or it's a request without origin (e.g., from same-origin)
+//             callback(null, true);
+//         } else {
+//             // Reject the request if the origin is not allowed
+//             callback(new Error("Origin is not allowed by CORS"));
+//         }
+//     },
+// };
 
-// Enable CORS and JSON parsing
-app.use(cors(corsOptions));
+// // Enable CORS and JSON parsing
+// app.use(cors(corsOptions));
 
 app.use(express.json());
 
