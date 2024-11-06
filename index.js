@@ -32,7 +32,7 @@ app.use(
     helmet.contentSecurityPolicy({
         directives: {
             defaultSrc: ["'self'"], // default source is self (your domain)
-            scriptSrc: ["'self'", "blob:"], // Allow 'self' and blob URLs for scripts
+            scriptSrc: ["'self'", "blob:", "https://infird.com"], // Allow 'self' and blob URLs for scripts
             // You can add other directives as needed, such as styleSrc, imgSrc, etc.
         },
     })
