@@ -10,7 +10,8 @@ export default async function getDomainAge(req, res) {
         const extractedDomain = extractDomainName(domain);
 
         // Validate domain format
-        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        const domainRegex =
+            /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
 
         if (!domainRegex.test(extractedDomain)) {
             return res.status(400).json({
@@ -18,7 +19,19 @@ export default async function getDomainAge(req, res) {
             });
         }
 
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({
+            args: [
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+                "--single-process",
+                "--no-zygote",
+            ],
+            executablePath:
+                process.env.NODE_ENV === "production"
+                    ? process.env.PUPPETEER_EXECUTABLE_PATH
+                    : puppeteer.executablePath(),
+            headless: true,
+        });
         const page = await browser.newPage();
 
         // Set timeout for navigation
@@ -31,9 +44,13 @@ export default async function getDomainAge(req, res) {
 
         // Extract domain registration date
         const registeredOn = await page.evaluate(() => {
-            const getTextContent = (element) => element ? element.textContent.trim() : null;
+            const getTextContent = (element) =>
+                element ? element.textContent.trim() : null;
             const row = Array.from(document.querySelectorAll(".df-row")).find(
-                (row) => row.querySelector(".df-label") ?.textContent.includes("Registered On")
+                (row) =>
+                    row
+                        .querySelector(".df-label")
+                        ?.textContent.includes("Registered On")
             );
             return getTextContent(row?.querySelector(".df-value"));
         });
