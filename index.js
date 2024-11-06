@@ -28,7 +28,15 @@ const app = express();
 app.use(express.json());
 
 // Use Helmet middleware
-app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"], // default source is self (your domain)
+            scriptSrc: ["'self'", "blob:"], // Allow 'self' and blob URLs for scripts
+            // You can add other directives as needed, such as styleSrc, imgSrc, etc.
+        },
+    })
+);
 
 // Use the domain age router
 app.use("/api", routes.domainAgeRoutes);
