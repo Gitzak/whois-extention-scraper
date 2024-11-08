@@ -10,8 +10,7 @@ export default async function getDomainAge(req, res) {
         const extractedDomain = extractDomainName(domain);
 
         // Validate domain format
-        const domainRegex =
-            /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
 
         if (!domainRegex.test(extractedDomain)) {
             return res.status(400).json({
